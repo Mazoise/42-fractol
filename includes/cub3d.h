@@ -6,7 +6,7 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 11:01:01 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/14 21:27:27 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:46:25 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@
 # define UP 7
 # define DWN 8
 # define OBJ 9
-# define EVENTS 10
+# define ZOOM 11
+# define DEZOOM 12
+# define EVENTS 13
 
 # define ESC_KEY 65307
 # define UP_KEY 65362
@@ -52,6 +54,9 @@
 # define SPACE 32
 # define F_KEY 102
 # define E_KEY 101
+
+#define JULIA 0
+#define MANDELBROT 1
 
 typedef union		u_squ
 {
@@ -102,7 +107,15 @@ typedef struct		s_params
 	void			*fullscreen;
 	t_idx			max;
 	t_mlx_img		img;
-	t_mlx_img		mini_m;
+	float			c_r;
+	float			c_i;
+	float			z_r;
+	float			z_i;
+	float			x1;
+	float			x2;
+	float			y1;
+	float			y2;
+	int				set;
 	char			event[EVENTS];
 	int				screenshot;
 }					t_params;
@@ -128,7 +141,7 @@ int					draw_in_wdw(t_params *params);
 void				full_scan(t_params *params);
 int					draw_mini_map(t_params *params);
 void				screenshot_bmp(t_params *params);
-void				check_args(int argc, char **argv, t_params *params);
+int					check_args(int argc, char **argv, t_params *params);
 int					pre_calc(t_params *params);
 void				free_all(t_params *params);
 void				sprite(t_params *params, double angle, int i);
@@ -147,4 +160,5 @@ void				dir_vect(t_pos *dir, t_pos *hit, double compas);
 void				pre_color(t_colors *colors);
 void				clear_void(t_mlx_img *map, t_idx max);
 void				add_pix(t_mlx_img *img, t_mlx_img txtr, int dst, int src);
+void		color_to_img(t_mlx_img *img, int color, int i, int j);
 #endif

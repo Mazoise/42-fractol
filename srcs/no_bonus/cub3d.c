@@ -6,7 +6,7 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:45:55 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/14 21:18:27 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:15:02 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int				main(int argc, char **argv)
 {
 	t_params	params;
 
-	check_args(argc, argv, &params);
+	if (check_args(argc, argv, &params))
+		return (0);
 	if (!(params.ptr = mlx_init()))
 	{
 		ft_dprintf(2, "Error\nMlx error : %s (init.)\n", strerror(errno));

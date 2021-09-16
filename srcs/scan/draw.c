@@ -6,7 +6,7 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 18:21:54 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/14 22:39:24 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/16 17:30:24 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,28 @@ void		rgb_to_img(t_mlx_img *img, t_rgb color, int i, int j)
 	img->img[tmp + 2] = color.red;
 }
 
+void		color_to_img(t_mlx_img *img, int color, int i, int j)
+{
+	int		tmp;
+
+	// ft_printf("color : %d - ", color);
+	tmp = ((img->len * j) + i * (img->bpp >> 3));
+	img->img[tmp + 2] = color >> 16;
+	img->img[tmp + 1] = (color - (img->img[tmp + 0] << 16)) >> 8;
+	img->img[tmp + 0] = (color - (img->img[tmp + 1] << 8));
+	// ft_printf("%d, %d, %d\n ", (unsigned char)img->img[tmp + 0], (unsigned char)img->img[tmp + 1],(unsigned char)img->img[tmp + 2]);
+}
+
 void				full_scan(t_params *params)
 {
 	t_idx	scan;
 	t_rgb	color;
 	t_pos	scale;
 
-	float x1 = -2.1;
-	float x2 = 0.6;
-	float y1 = -1.2;
-	float y2 = 1.2;
-	int iteration_max = 200;
+	int iteration_max = 500;
 
-	scale.x = params->max.i/(x2 - x1);
-	scale.y = params->max.j/(y2 - y1);
+	scale.x = params->max.i/(params->x2 - params->x1);
+	scale.y = params->max.j/(params->y2 - params->y1);
 
 	scan.i = 0;
 
@@ -61,17 +69,17 @@ void				full_scan(t_params *params)
 		scan.j = 0;
 		while(scan.j < params->max.j)
 		{
-			float c_r = scan.i / scale.x + x1;
-			float c_i = scan.j / scale.y + y1;
-			float z_r = 0;
-			float z_i = 0;
+			params->z_r = scan.i / scale.x + params->x1;
+			params->z_i = scan.j / scale.y + params->y1;
+			// params->z_r = 0;
+			// params->z_i = 0;
 			int i = 0;
 
-			while (z_r*z_r + z_i*z_i < 4 && i < iteration_max)
+			while (params->z_r*params->z_r + params->z_i*params->z_i < 4 && i < iteration_max)
 			{
-				float tmp = z_r;
-				z_r = z_r * z_r - z_i * z_i + c_r;
-				z_i = 2 * z_i * tmp + c_i;
+				float tmp = params->z_r;
+				params->z_r = params->z_r * params->z_r - params->z_i * params->z_i + params->c_r;
+				params->z_i = 2 * params->z_i * tmp + params->c_i;
 				i++;
 			}
 			if (i == iteration_max)
@@ -83,10 +91,10 @@ void				full_scan(t_params *params)
 			}
 			else
 			{
-				color.red = (i / (iteration_max / 2.0)) * 255;
-				color.blue = 0;
-				color.green = 0;
-				rgb_to_img(&params->img, color, scan.i, scan.j);
+				// color.red = (int)(((float)i / iteration_max) * 16777216) % 255;
+				// color.green = (int)(((float)i / iteration_max) * 16777216) % (255 * 255);
+				// color.blue = (int)(((float)i / iteration_max) * 16777216) % (255 * 255 * 255);
+				color_to_img(&params->img, ((float)i / iteration_max) * 16777216, scan.i, scan.j);
 			}
 			scan.j++;
 		}
