@@ -6,7 +6,7 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 18:21:54 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/16 17:30:24 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/17 00:54:54 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void		color_to_img(t_mlx_img *img, int color, int i, int j)
 
 	// ft_printf("color : %d - ", color);
 	tmp = ((img->len * j) + i * (img->bpp >> 3));
-	img->img[tmp + 2] = color >> 16;
-	img->img[tmp + 1] = (color - (img->img[tmp + 0] << 16)) >> 8;
-	img->img[tmp + 0] = (color - (img->img[tmp + 1] << 8));
+	img->img[tmp + 0] = color >= 512 || color < 256 ? (color < 256 ? 767 - color : color) : 0;
+	img->img[tmp + 1] = color < 512? (color >= 256? 255 - color : color - 256) : 0;
+	img->img[tmp + 2] = color > 256 ? (color >= 512? 511 - color : color - 256) : 0;
 	// ft_printf("%d, %d, %d\n ", (unsigned char)img->img[tmp + 0], (unsigned char)img->img[tmp + 1],(unsigned char)img->img[tmp + 2]);
 }
 
@@ -57,8 +57,8 @@ void				full_scan(t_params *params)
 	t_rgb	color;
 	t_pos	scale;
 
-	int iteration_max = 500;
-
+	int iteration_max = 90;
+	int max_i = 0;
 	scale.x = params->max.i/(params->x2 - params->x1);
 	scale.y = params->max.j/(params->y2 - params->y1);
 
@@ -69,6 +69,7 @@ void				full_scan(t_params *params)
 		scan.j = 0;
 		while(scan.j < params->max.j)
 		{
+			// color_to_img(&params->img, ((float)scan.i / params->max.i) * 768, scan.i, scan.j);
 			params->z_r = scan.i / scale.x + params->x1;
 			params->z_i = scan.j / scale.y + params->y1;
 			// params->z_r = 0;
@@ -91,15 +92,18 @@ void				full_scan(t_params *params)
 			}
 			else
 			{
-				// color.red = (int)(((float)i / iteration_max) * 16777216) % 255;
+				if (i > max_i)
+					max_i = i;
+				// color.red = (int)(((float)i / iteration_max) * 768) % 255;
 				// color.green = (int)(((float)i / iteration_max) * 16777216) % (255 * 255);
 				// color.blue = (int)(((float)i / iteration_max) * 16777216) % (255 * 255 * 255);
-				color_to_img(&params->img, ((float)i / iteration_max) * 16777216, scan.i, scan.j);
+				color_to_img(&params->img, ((float)i / iteration_max) * 712, scan.i, scan.j);
 			}
 			scan.j++;
 		}
 		scan.i++;
 	}
+	printf("i : %d\n", max_i);
 }
 
 // while zx*zx + zy*zy < 4 and i > 1:

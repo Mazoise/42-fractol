@@ -6,7 +6,7 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 11:01:01 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/16 16:46:25 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/17 00:48:52 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ typedef union		u_squ
 
 typedef struct		s_pos
 {
-	double			x;
-	double			y;
+	float			x;
+	float			y;
 }					t_pos;
 
 typedef struct		s_idx
@@ -107,14 +107,14 @@ typedef struct		s_params
 	void			*fullscreen;
 	t_idx			max;
 	t_mlx_img		img;
-	float			c_r;
-	float			c_i;
-	float			z_r;
-	float			z_i;
-	float			x1;
-	float			x2;
-	float			y1;
-	float			y2;
+	float		c_i;
+	float		z_r;
+	float		c_r;
+	float		z_i;
+	float		x1;
+	float		x2;
+	float		y1;
+	float		y2;
 	int				set;
 	char			event[EVENTS];
 	int				screenshot;
