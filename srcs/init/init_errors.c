@@ -6,7 +6,7 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 19:12:35 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/17 00:48:37 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/18 16:09:05 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int
 		params->y2 = 2;
 		params->c_r = atof(argv[2]);
 		params->c_i = atof(argv[3]);
-		params->z_r = 0;
-		params->z_i = 0;
 	}
 	else if (!ft_strncmp(argv[1], "Mandelbrot", 11) || !ft_strncmp(argv[1], "mandelbrot", 11))
 	{
@@ -62,8 +60,6 @@ int
 		params->x2 = 0.6;
 		params->y1 = -1.2;
 		params->y2 = 1.2;
-		params->c_r = 0;
-		params->c_i = 0;
 	}
 	else
 	{

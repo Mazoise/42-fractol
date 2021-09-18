@@ -38,7 +38,7 @@ INCLUDES	= ./includes/
 
 NAME		= libft.a
 
-CC			= clang-9
+CC			= clang
 
 CFLAGS		= -Wall -Wextra -Werror -I ${INCLUDES}
 

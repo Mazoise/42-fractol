@@ -6,7 +6,7 @@
 #    By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/14 19:30:25 by mchardin          #+#    #+#              #
-#    Updated: 2021/09/14 21:23:27 by mchardin         ###   ########.fr        #
+#    Updated: 2021/09/18 15:06:05 by mchardin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ OBJS		=	${NB_SRCS:.c=.o}
 
 OBJS_B		=	${B_SRCS:.c=.o}
 
-CC			=	clang-9
+CC			=	clang
 
 CFLAGS		=	-g -Ofast -Wall -Werror -Wextra -I $(INCLUDES) -I $(INCLUDES_L) -I$(PREFIX_MLX) 
 
