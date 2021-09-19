@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   fractol.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "fractol.h"
 #include <math.h>
 
 int				draw_in_wdw(t_params *params)
@@ -42,8 +42,7 @@ int				main(int argc, char **argv)
 		ft_dprintf(2, "Error\nMlx error : %s (init.)\n", strerror(errno));
 		return (0);
 	}
-	if (!(initialisation(argv[1], &params)))
-		return (0);
+	init_struct(&params);
 	if (params.screenshot == 1)
 		screenshot_bmp(&params);
 	if (!(window_mlx(&params, "--- FRACTOL ---")))

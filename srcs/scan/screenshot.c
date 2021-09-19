@@ -6,11 +6,11 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 17:37:30 by mchardin          #+#    #+#             */
-/*   Updated: 2019/12/10 10:02:08 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/19 16:09:43 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "fractol.h"
 #include <fcntl.h>
 #include <sys/errno.h>
 

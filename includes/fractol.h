@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   fractol.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,10 +20,16 @@
 # include <string.h>
 # include <math.h>
 # include <sys/errno.h>
+
+# define ITERATION_MAX 150
+// # define NO_SOLVE_COLOR 
+# define WINDOW_H 1000
+
 # define FULLSCREEN_H 1400
 # define FULLSCREEN_W 2560
+
 # define INFO 54
-# define CAM_L 0
+# define COLOR_SHIFT 0
 # define CAM_R 1
 # define FORW 2
 # define BCKW 3
@@ -118,19 +124,15 @@ typedef struct		s_params
 	int				set;
 	char			event[EVENTS];
 	int				screenshot;
+	int				decalage;
 }					t_params;
 
 int					initialisation(char *mapcub, t_params *params);
 void				init_struct(t_params *params);
 int					check_all_params(t_params *params);
-void				check_format(char *str);
-int					conv_texture(char *str, t_params *params, char c);
 int					conv_resolution(char *str, t_params *params);
-int					conv_grid(char *str, t_params *params);
 void				line_put(t_params *params, double inc, int i, double angle);
 void				rgb_to_img(t_mlx_img *img, t_rgb color, int i, int j);
-int					is_grid_pos(double x, double y, char **grid, char c);
-void				correct_compas(double *compas);
 void				key_events(t_params *params);
 int					press_key(int keycode, t_params *params);
 int					release_key(int keycode, t_params *params);
@@ -139,10 +141,8 @@ int					window_mlx(t_params *params, char *name);
 void				loop_mlx(t_params *params);
 int					draw_in_wdw(t_params *params);
 void				full_scan(t_params *params);
-int					draw_mini_map(t_params *params);
 void				screenshot_bmp(t_params *params);
 int					check_args(int argc, char **argv, t_params *params);
-int					pre_calc(t_params *params);
 void				free_all(t_params *params);
 void				sprite(t_params *params, double angle, int i);
 void				which_start(t_pos *scan, t_pos pos, double angle, int idx);
@@ -160,5 +160,5 @@ void				dir_vect(t_pos *dir, t_pos *hit, double compas);
 void				pre_color(t_colors *colors);
 void				clear_void(t_mlx_img *map, t_idx max);
 void				add_pix(t_mlx_img *img, t_mlx_img txtr, int dst, int src);
-void		color_to_img(t_mlx_img *img, int color, int i, int j);
+void		color_to_img(t_mlx_img *img, int color, int i, int j, int decalage);
 #endif

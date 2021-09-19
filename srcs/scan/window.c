@@ -6,11 +6,11 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:27:33 by mchardin          #+#    #+#             */
-/*   Updated: 2019/12/12 10:41:23 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/19 16:09:43 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "fractol.h"
 
 int			exit_wdw(t_params *params)
 {

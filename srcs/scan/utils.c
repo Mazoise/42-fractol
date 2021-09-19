@@ -6,11 +6,11 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:59:17 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/14 21:17:20 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/19 16:09:43 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "fractol.h"
 
 double		rsqrt(double number)
 {

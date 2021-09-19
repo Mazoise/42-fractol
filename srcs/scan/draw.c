@@ -6,11 +6,11 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 18:21:54 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/18 16:53:50 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:03:51 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "fractol.h"
 #include <math.h>
 
 void		put_pix(t_mlx_img *img, t_mlx_img txtr, int dst, int src)
@@ -39,61 +39,36 @@ void		rgb_to_img(t_mlx_img *img, t_rgb color, int i, int j)
 	img->img[tmp + 2] = color.red;
 }
 
-void		color_to_img(t_mlx_img *img, int color, int i, int j)
+void		color_to_img(t_mlx_img *img, int color, int i, int j, int decalage)
 {
-	int		tmp;
+	int					tmp;
+	unsigned char		switch_color[6];
+	int					idx;
 
-	// ft_printf("color : %d - ", color);
+	idx = 0;
 	tmp = ((img->len * j) + i * (img->bpp >> 3));
-	// img->img[tmp + 2] = color >= 512 || color < 256 ? (color < 256 ? 767 - color : color) : 0;
-	// img->img[tmp + 1] = color < 512? (color >= 256? 255 - color : color - 256) : 0;
-	// img->img[tmp + 0] = color > 256 ? (color >= 512? 511 - color : color - 256) : 0;
-	// ft_printf("%d, %d, %d\n ", (unsigned char)img->img[tmp + 0], (unsigned char)img->img[tmp + 1],(unsigned char)img->img[tmp + 2]);
+	switch_color[0] = color % 256;
+	switch_color[1] = 255;
+	switch_color[2] = 255;
+	switch_color[3] = 255 - color % 256;
+	switch_color[4] = 0;
+	switch_color[5] = 0;
 
-	if (color < 256)
+	while (idx < 3)
 	{
-		img->img[tmp + 2] = (unsigned char)255;
-		img->img[tmp + 1] = (unsigned char)(color % 256);
-		img->img[tmp + 0] = (unsigned char)0;
-	}
-	else if (color < 512)
-	{
-		img->img[tmp + 2] = (unsigned char)(255 - color % 256);
-		img->img[tmp + 1] = (unsigned char)255;
-		img->img[tmp + 0] = (unsigned char)0;
-	}
-	else if (color < 768)
-	{
-		img->img[tmp + 2] = (unsigned char)0;
-		img->img[tmp + 1] = (unsigned char)255;
-		img->img[tmp + 0] = (unsigned char)(color % 256);
-	}
-	else if (color < 1024)
-	{
-		img->img[tmp + 2] = (unsigned char)0;
-		img->img[tmp + 1] = (unsigned char)(255 - color % 256);
-		img->img[tmp + 0] = (unsigned char)255;
-	}
-	else if (color < 1280)
-	{
-		img->img[tmp + 2] = (unsigned char)(color % 256);
-		img->img[tmp + 1] = (unsigned char)0;
-		img->img[tmp + 0] = (unsigned char)255;
-	}
-	else
-	{
-		img->img[tmp + 2] = (unsigned char)255;
-		img->img[tmp + 1] = (unsigned char)0;
-		img->img[tmp + 0] = (unsigned char)(255 - color % 256);
+		img->img[tmp + idx] = switch_color[(color / 256 + 4 * idx + decalage) % 6];
+		idx++;
 	}
 }
 
 void				full_scan(t_params *params)
 {
+	const t_rgb	no_solve_color = {255, 255, 255, 1};
+	const int iteration_max = ITERATION_MAX;
+
 	t_idx	scan;
-	t_rgb	color;
 	t_pos	scale;
-	int iteration_max = 700;
+	int i;
 
 	scale.x = params->max.i/(params->x2 - params->x1);
 	scale.y = params->max.j/(params->y2 - params->y1);
@@ -105,7 +80,7 @@ void				full_scan(t_params *params)
 		scan.j = 0;
 		while(scan.j < params->max.j)
 		{
-			// color_to_img(&params->img, ((float)scan.i / params->max.i) * 1534, scan.i, scan.j);
+			// color_to_img(&params->img, ((float)scan.i / params->max.i) * 1534, scan.i, scan.j, params->decalage);
 			if (params->set == JULIA)
 			{
 				params->z_r = scan.i / scale.x + params->x1;
@@ -118,8 +93,7 @@ void				full_scan(t_params *params)
 				params->z_i = 0;
 				params->z_r = 0;
 			}
-			int i = 0;
-
+			i = 0;
 			while (params->z_r*params->z_r + params->z_i*params->z_i < 4 && i < iteration_max)
 			{
 				float tmp = params->z_r;
@@ -128,14 +102,9 @@ void				full_scan(t_params *params)
 				i++;
 			}
 			if (i == iteration_max)
-			{
-				color.red = 255;
-				color.blue = 255;
-				color.green = 255;
-				rgb_to_img(&params->img, color, scan.i, scan.j);
-			}
+				rgb_to_img(&params->img, no_solve_color, scan.i, scan.j);
 			else
-				color_to_img(&params->img, (int)(((float)i / iteration_max) * 1534 * 10) % 1534, scan.i, scan.j);
+				color_to_img(&params->img, (int)(((float)i / iteration_max) * 1534 * 2) % 1534, scan.i, scan.j, params->decalage);
 			scan.j++;
 		}
 		scan.i++;

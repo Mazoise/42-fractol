@@ -6,11 +6,11 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:49:07 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/18 15:36:24 by mchardin         ###   ########.fr       */
+/*   Updated: 2021/09/19 17:47:43 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "fractol.h"
 
 void		key_events(t_params *params)
 {
@@ -50,6 +50,10 @@ void		key_events(t_params *params)
 		params->y1 += tmp_y * 2;
 		params->y2 += tmp_y * 2;
 	}
+	else if (params->event[COLOR_SHIFT] == 1)
+	{
+		params->decalage++;
+	}
 }
 
 int			press_key(int keycode, t_params *params)
@@ -66,6 +70,8 @@ int			press_key(int keycode, t_params *params)
 		params->event[UP] = 1;
 	else if (keycode == DOWN_KEY)
 		params->event[DWN] = 1;
+	else if (keycode == Q_KEY)
+		params->event[COLOR_SHIFT] = 1;
 	return (1);
 }
 
@@ -85,5 +91,7 @@ int			release_key(int keycode, t_params *params)
 		params->event[UP] = 0;
 	else if (keycode == DOWN_KEY)
 		params->event[DWN] = 0;
+	else if (keycode == Q_KEY)
+		params->event[COLOR_SHIFT] = 0;
 	return (1);
 }
