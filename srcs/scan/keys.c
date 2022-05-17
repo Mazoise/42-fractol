@@ -6,13 +6,14 @@
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:49:07 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/19 17:47:43 by mchardin         ###   ########.fr       */
+/*   Updated: 2022/05/17 21:03:01 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void		key_events(t_params *params)
+void
+	key_events(t_params *params)
 {
 	float tmp_x = (params->x2 - params->x1) * 0.05;
 	float tmp_y = (params->y2 - params->y1) * 0.05;
@@ -56,7 +57,8 @@ void		key_events(t_params *params)
 	}
 }
 
-int			press_key(int keycode, t_params *params)
+int
+	press_key(int keycode, t_params *params)
 {
 	if (keycode == W_KEY)
 		params->event[ZOOM] = 1;
@@ -75,7 +77,8 @@ int			press_key(int keycode, t_params *params)
 	return (1);
 }
 
-int			release_key(int keycode, t_params *params)
+int
+	release_key(int keycode, t_params *params)
 {
 	if (keycode == ESC_KEY)
 		exit_wdw(params);

@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:45:55 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/16 16:15:02 by mchardin         ###   ########.fr       */
+/*   Updated: 2022/05/17 20:54:55 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <math.h>
 
-int				draw_in_wdw(t_params *params)
+int
+	draw_in_wdw(t_params *params)
 {
 	full_scan(params);
 	mlx_put_image_to_window(params->ptr, params->wdw, params->fullscreen, 0, 0);
@@ -21,7 +22,8 @@ int				draw_in_wdw(t_params *params)
 	return (1);
 }
 
-void			loop_mlx(t_params *params)
+void
+	loop_mlx(t_params *params)
 {
 	mlx_hook(params->wdw, 17, 0, exit_wdw, params);
 	mlx_do_key_autorepeatoff(params->ptr);
@@ -31,13 +33,15 @@ void			loop_mlx(t_params *params)
 	mlx_loop(params->ptr);
 }
 
-int				main(int argc, char **argv)
+int
+	main(int argc, char **argv)
 {
 	t_params	params;
 
 	if (check_args(argc, argv, &params))
 		return (0);
-	if (!(params.ptr = mlx_init()))
+	params.ptr = mlx_init();
+	if (!params.ptr)
 	{
 		ft_dprintf(2, "Error\nMlx error : %s (init.)\n", strerror(errno));
 		return (0);

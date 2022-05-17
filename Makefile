@@ -6,7 +6,7 @@
 #    By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/14 19:30:25 by mchardin          #+#    #+#              #
-#    Updated: 2021/09/19 17:16:32 by mchardin         ###   ########.fr        #
+#    Updated: 2022/05/17 20:41:35 by mchardin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,11 @@ NB_SRCS		=	$(SRCS_INIT) $(SRCS_SCAN)
 
 OBJS		=	${NB_SRCS:.c=.o}
 
+DEPS		=   ${OBJS:.o=.d}
+
 CC			=	clang
 
-CFLAGS		=	-g -Ofast -Wall -Werror -Wextra -I $(INCLUDES) -I $(INCLUDES_L) -I$(PREFIX_MLX) 
+CFLAGS		=	-g -Ofast -Wall -Werror -Wextra -I $(INCLUDES) -I $(INCLUDES_L) -I$(PREFIX_MLX) -MMD
 
 RM 			=	rm -f
 
@@ -44,7 +46,8 @@ LIBFT		=	-L./libft/ -lft
 
 NAME		= 	fractol
 
-$(NAME) :		all
+$(NAME) :		${OBJS} makelib makemlx
+				$(CC) $(OBJS) $(MLX_SYS) $(LIBFT) -lm -o $(NAME)
 
 makelib :
 				$(MAKE_LIBFT)
@@ -52,11 +55,12 @@ makelib :
 makemlx :
 				$(MAKE_MLX)
 
-all :			./includes/fractol.h $(OBJS) makelib makemlx
-				$(CC) $(OBJS) $(MLX_SYS) $(LIBFT) -lm -o $(NAME)
+all :			
+				$(MAKE) $(NAME)
 
 clean :
 				$(RM) $(OBJS)
+				$(RM) $(DEPS)
 				$(MAKE_LIBFT) clean
 				$(MAKE_MLX) clean
 
@@ -67,4 +71,9 @@ fclean :		clean
 
 re :			fclean all
 
+norme:
+	norminette $(NB_SRCS) $(INCLUDES) $(INCLUDES_L)
+
 .PHONY :		makelib makemlx all clean fclean re
+
+-include $(DEPS)

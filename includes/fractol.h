@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                            :+:      :+:    :+:   */
+/*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchardin <mchardin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 11:01:01 by mchardin          #+#    #+#             */
-/*   Updated: 2021/09/17 00:48:52 by mchardin         ###   ########.fr       */
+/*   Updated: 2022/05/17 20:47:35 by mchardin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,5 +160,5 @@ void				dir_vect(t_pos *dir, t_pos *hit, double compas);
 void				pre_color(t_colors *colors);
 void				clear_void(t_mlx_img *map, t_idx max);
 void				add_pix(t_mlx_img *img, t_mlx_img txtr, int dst, int src);
-void		color_to_img(t_mlx_img *img, int color, int i, int j, int decalage);
+void		color_to_img(t_mlx_img *img, int color, t_idx coord, int decalage);
 #endif
